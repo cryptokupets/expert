@@ -5,7 +5,7 @@
   xmlns:indicator="ck.expert.control.indicator">
   <VBox>
     <control:CandlestickChart candles="{Rows}"
-      padding="30"
+      padding="60"
       height="240">
       <control:candles>
         <control:Candle x="{time}"
