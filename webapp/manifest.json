@@ -1,0 +1,43 @@
+{
+  "sap.app": {
+    "id": "ck.expert",
+    "type": "application",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "dataSources": {
+      "default": {
+        "uri": "/odata/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5"
+  },
+  "sap.ui5": {
+    "autoPrefixId": true,
+    "models": {
+      "data": {
+        "dataSource": "default",
+        "settings": {
+          "autoExpandSelect": true,
+          "groupId": "$direct",
+          "synchronizationMode": "None",
+          "operationMode": "Server"
+        }
+      },
+      "": {
+        "uri": "./data/candles.json",
+        "type": "sap.ui.model.json.JSONModel"
+      }
+    },
+    "rootView": {
+      "viewName": "ck.expert.view.App",
+      "type": "XML"
+    }
+  }
+}
