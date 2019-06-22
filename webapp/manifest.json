@@ -21,16 +21,15 @@
   "sap.ui5": {
     "autoPrefixId": true,
     "models": {
-      "data": {
+      "": {
         "dataSource": "default",
         "settings": {
-          "autoExpandSelect": true,
           "groupId": "$direct",
           "synchronizationMode": "None",
           "operationMode": "Server"
         }
       },
-      "": {
+      "json": {
         "uri": "./data/candles.json",
         "type": "sap.ui.model.json.JSONModel"
       }
@@ -38,6 +37,28 @@
     "rootView": {
       "viewName": "ck.expert.view.App",
       "type": "XML"
-    }
+    },
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"controlId": "app",
+				"viewType": "XML",
+				"controlAggregation": "pages",
+				"viewPath": "ck.expert.view",
+				"async": true
+			},
+			"routes": [
+				{
+					"pattern": "expert/{id}",
+					"name": "expert",
+					"target": "expert"
+				}
+			],
+			"targets": {
+				"expert": {
+					"viewName": "Expert"
+				}
+			}
+		}
   }
 }
