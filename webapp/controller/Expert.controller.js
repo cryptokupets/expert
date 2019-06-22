@@ -13,14 +13,12 @@ sap.ui.define(
       onRouteMatched: function(oEvent) {
         var sId = oEvent.getParameter("arguments").id;
         var oView = this.getView();
-				var oModel = oView.getModel();
-        oModel.metadataLoaded().then(function() {
-          oView.bindElement({
-            path: "/Buffers('" + sId + "')",
-            parameters: {
-              $expand: "Rows"
-            }
-          });
+
+        oView.bindElement({
+          path: "/Buffers('" + sId + "')",
+          parameters: {
+            $expand: "Rows"
+          }
         });
       },
 
