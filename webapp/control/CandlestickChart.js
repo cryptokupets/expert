@@ -22,6 +22,15 @@ sap.ui.define(["sap/ui/core/Control"], function(Control) {
       // d3 применяется только после рендера UI5
     },
 
+    // без этого связывается только 100 элементов
+    bindAggregation: function(sKey, oBindingInfo) {
+      if (!oBindingInfo.length) oBindingInfo.length = 100000; // Max number of lines to display
+      return sap.ui.core.Control.prototype.bindAggregation.apply(
+        this,
+        arguments
+      ); //call superclass
+    },
+
     onAfterRendering: function() {
       var aCandles = this.getCandles();
       if (!aCandles || aCandles.length < 2) return;
@@ -54,15 +63,13 @@ sap.ui.define(["sap/ui/core/Control"], function(Control) {
         .attr("transform", `translate(${iPadding}, ${iPadding})`);
 
       // шкала x
-      var dMinX = moment(aCandles.length ? aCandles[0].getX() : null).toDate();
-      var iTimeframe = moment(
-        aCandles.length > 1 ? aCandles[1].getX() : null
-      ).diff(dMinX, "m");
-      var dMaxX = moment(
-        aCandles.length ? aCandles[aCandles.length - 1].getX() : null
-      )
+      var dMinX = moment(aCandles[0].getX()).toDate();
+      var iTimeframe = moment(aCandles[1].getX()).diff(dMinX, "m");
+      var dMaxX = moment(aCandles[aCandles.length - 1].getX())
         .add(iTimeframe, "m")
         .toDate();
+
+      console.log(aCandles);
 
       var xScale = d3
         .scaleTime()
