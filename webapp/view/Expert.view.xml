@@ -6,7 +6,7 @@
   <VBox>
     <control:CandlestickChart candles="{Rows}"
       padding="60"
-      height="240">
+      height="480">
       <control:candles>
         <control:Candle x="{time}"
           open="{open}"

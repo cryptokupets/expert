@@ -37,7 +37,6 @@ sap.ui.define(["sap/ui/core/Control"], function(Control) {
       var sId = this.getId();
 
       // подготовка переменных
-
       var iPadding = this.getPadding();
       var sParentId = this.getParent().getId();
 
@@ -49,8 +48,8 @@ sap.ui.define(["sap/ui/core/Control"], function(Control) {
       var fMax = d3.max(aCandles, e => e.getHigh());
 
       var fCandleBodyWidth = 0.8;
-      var sPositive = "white";
-      var sStroke = "black";
+      var sPositive = "green";
+      var sStroke = "red";
 
       // подготовка пространства
       var svg = d3
@@ -101,7 +100,7 @@ sap.ui.define(["sap/ui/core/Control"], function(Control) {
 
       // тень свечи
       chart
-        .selectAll() // можно заменить на линию
+        .selectAll()
         .data(aCandles)
         .enter()
         .append("line")
@@ -109,16 +108,17 @@ sap.ui.define(["sap/ui/core/Control"], function(Control) {
         .attr("x2", e => xScale(moment(e.getX()).toDate()) + fTickWidth / 2)
         .attr("y1", e => yScale(e.getHigh()))
         .attr("y2", e => yScale(e.getLow()))
-        .attr("fill", e => (e.getTrend() > 0 ? sPositive : sStroke))
+        .attr("fill", e => (e.getClose() >= e.getOpen() ? sPositive : sStroke))
         .attr("stroke-width", 1)
-        .attr("stroke", e => (e.getTrend() > 0 ? sPositive : sStroke));
+        .attr("stroke", e =>
+          e.getClose() >= e.getOpen() ? sPositive : sStroke
+        );
 
       // тело свечи
       chart
         .selectAll()
         .data(aCandles)
         .enter()
-        .filter(e => e.getTrend() !== 0) // при наличии тела
         .append("rect")
         .attr(
           "x",
@@ -127,46 +127,16 @@ sap.ui.define(["sap/ui/core/Control"], function(Control) {
             ((1 - fCandleBodyWidth) * fTickWidth) / 2
         )
         .attr("y", e => yScale(Math.max(e.getOpen(), e.getClose())))
-        .attr(
-          "height",
-          e =>
+        .attr("height", e =>
+          Math.max(
+            1,
             yScale(Math.min(e.getOpen(), e.getClose())) -
-            yScale(Math.max(e.getOpen(), e.getClose()))
+              yScale(Math.max(e.getOpen(), e.getClose()))
+          )
         )
         .attr("width", fCandleBodyWidth * fTickWidth)
-        .attr("fill", e => (e.getTrend() > 0 ? sPositive : sStroke))
+        .attr("fill", e => (e.getClose() >= e.getOpen() ? sPositive : sStroke))
         .attr("stroke-width", 0);
-
-      // chart
-      //   .selectAll()
-      //   .data(aCandles)
-      //   .enter()
-      //   .filter(e => e.getTrend() === 0) // с нулевым телом
-      //   .append("rect")
-      //   .attr(
-      //     "x",
-      //     e =>
-      //       xScale(moment(e.getX()).toDate()) +
-      //       ((1 - fCandleBodyWidth) * fTickWidth) / 2
-      //   )
-      //   .attr("y", e => yScale(Math.max(e.getOpen(), e.getClose())))
-      //   .attr("height", e => 1)
-      //   .attr("width", fCandleBodyWidth * fTickWidth)
-      //   .attr("fill", e => (e.getTrend() > 0 ? sPositive : sStroke))
-      //   .attr("stroke-width", 2)
-      //   .attr("stroke", sStroke);
-
-      // сигнал
-      // chart
-      //   .selectAll()
-      //   .data(aCandles)
-      //   .enter()
-      //   .filter(e => e.getBuy() || e.getSell())
-      //   .append("circle")
-      //   .attr("cx", e => xScale(moment(e.getX()).toDate()) + fTickWidth / 2)
-      //   .attr("cy", e => yScale(Math.max(e.getOpen(), e.getClose())))
-      //   .attr("r", 4)
-      //   .attr("fill", e => (e.getBuy() ? "green" : "red"));
     }
   });
 });
