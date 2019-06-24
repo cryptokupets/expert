@@ -1,27 +1,23 @@
 <mvc:View controllerName="ck.expert.controller.Expert" 
   xmlns:mvc="sap.ui.core.mvc" 
   xmlns="sap.m" 
-  xmlns:control="ck.expert.control" 
-  xmlns:indicator="ck.expert.control.indicator">
+  xmlns:fc="open.fc" 
+  xmlns:indicator="open.fc.indicator">
   <VBox>
-    <control:CandlestickChart candles="{Rows}"
-      padding="60"
+    <fc:CandlestickChart candles="{Rows}" 
+      padding="60" 
       height="480">
-      <control:candles>
-        <control:Candle x="{time}"
-          open="{open}"
-          high="{high}"
-          low="{low}"
+      <fc:candles>
+        <fc:Candle x="{time}" 
+          open="{open}" 
+          high="{high}" 
+          low="{low}" 
           close="{close}"/>
-      </control:candles>
-    </control:CandlestickChart>
-    <!-- <indicator:CCI0 points="{/}" 
-      padding="30" 
-      threshold="100" 
-      height="120">
+      </fc:candles>
+    </fc:CandlestickChart>
+    <!-- <indicator:CCI0 points="{/}" padding="30" threshold="100" height="120">
       <indicator:points>
-        <control:Point x="{time}" 
-          y="{cci}"/>
+        <fc:Point x="{time}" y="{cci}"/>
       </indicator:points>
     </indicator:CCI0> -->
   </VBox>
